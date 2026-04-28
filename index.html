@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Quiz — Síndrome dos Ovários Policísticos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.10);max-width:720px;width:100%;padding:40px 36px}
+h1{color:#1a3a5c;font-size:22px;margin-bottom:6px}
+.subtitle{color:#64748b;font-size:13px;margin-bottom:30px}
+#start-screen{text-align:center}
+#start-screen h1{font-size:26px;margin-bottom:10px}
+.btn-start{background:#1a3a5c;color:#fff;border:none;padding:14px 40px;border-radius:10px;font-size:16px;cursor:pointer;margin-top:20px;transition:background .2s}
+.btn-start:hover{background:#2c5282}
+.progress-wrap{background:#e2e8f0;border-radius:99px;height:8px;margin-bottom:24px}
+.progress-bar{background:#2563eb;height:8px;border-radius:99px;transition:width .3s}
+.progress-label{font-size:12px;color:#64748b;margin-bottom:8px}
+.question-text{font-size:15px;font-weight:600;color:#1e293b;line-height:1.6;margin-bottom:20px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;padding:12px 16px;text-align:left;font-size:14px;cursor:pointer;transition:all .15s;color:#1e293b;line-height:1.5}
+.opt-btn:hover:not(:disabled){background:#eff6ff;border-color:#93c5fd}
+.opt-btn.correct{background:#f0fdf4;border-color:#16a34a;color:#15803d;font-weight:600}
+.opt-btn.wrong{background:#fef2f2;border-color:#dc2626;color:#b91c1c}
+.opt-btn:disabled{cursor:default}
+.explanation{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0;padding:12px 14px;margin-top:16px;font-size:13px;color:#78350f;line-height:1.6;display:none}
+.nav{margin-top:24px;display:flex;justify-content:flex-end}
+.btn-next{background:#2563eb;color:#fff;border:none;padding:11px 28px;border-radius:8px;font-size:14px;cursor:pointer;display:none;transition:background .2s}
+.btn-next:hover{background:#1d4ed8}
+#result-screen{text-align:center;display:none}
+.score-circle{width:120px;height:120px;border-radius:50%;background:#eff6ff;border:6px solid #2563eb;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px}
+.score-pct{font-size:28px;font-weight:700;color:#1a3a5c}
+.score-label{font-size:11px;color:#64748b}
+.stats{display:flex;gap:20px;justify-content:center;margin-bottom:24px}
+.stat{background:#f8fafc;border-radius:10px;padding:14px 24px}
+.stat-n{font-size:22px;font-weight:700}
+.stat-n.green{color:#16a34a}.stat-n.red{color:#dc2626}
+.stat-lbl{font-size:12px;color:#64748b}
+.btn-restart{background:#1a3a5c;color:#fff;border:none;padding:12px 32px;border-radius:8px;font-size:15px;cursor:pointer;transition:background .2s}
+.btn-restart:hover{background:#2c5282}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="start-screen">
+    <div style="font-size:36px;margin-bottom:12px">🔬</div>
+    <h1>Síndrome dos Ovários Policísticos</h1>
+    <p class="subtitle">Saúde da Mulher — Ginecologia</p>
+    <p style="color:#475569;font-size:14px;margin-top:10px">20 questões de múltipla escolha com gabarito comentado</p>
+    <button class="btn-start" onclick="startQuiz()">Começar</button>
+  </div>
+
+  <div id="quiz-screen" style="display:none">
+    <div class="progress-label" id="progress-label"></div>
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="question-text" id="question-text"></div>
+    <div class="options" id="options"></div>
+    <div class="explanation" id="explanation"></div>
+    <div class="nav"><button class="btn-next" id="btn-next" onclick="nextQuestion()">Proxima →</button></div>
+  </div>
+
+  <div id="result-screen">
+    <h1 style="margin-bottom:6px">Resultado</h1>
+    <p class="subtitle" style="margin-bottom:24px">Síndrome dos Ovários Policísticos</p>
+    <div class="score-circle">
+      <span class="score-pct" id="score-pct"></span>
+      <span class="score-label">acertos</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n green" id="stat-correct"></div><div class="stat-lbl">Acertos</div></div>
+      <div class="stat"><div class="stat-n red" id="stat-wrong"></div><div class="stat-lbl">Erros</div></div>
+      <div class="stat"><div class="stat-n" id="stat-total"></div><div class="stat-lbl">Total</div></div>
+    </div>
+    <button class="btn-restart" onclick="restartQuiz()">Refazer quiz</button>
+  </div>
+
+</div>
+<script>
+const rawQuestions = [
+  {
+    question: "A SOP é a endocrinopatia mais comum em mulheres em idade reprodutiva. Qual é a sua prevalência estimada?",
+    options: [
+      "6% a 16% dependendo da população estudada",
+      "Menos de 1% da população feminina",
+      "Apenas mulheres obesas, cerca de 30%",
+      "Exclusivamente em mulheres com história familiar positiva",
+      "Entre 20 e 25% das mulheres pós-menopáusicas"
+    ],
+    correctIndex: 0,
+    explanation: "A SOP é a endocrinopatia mais comum em mulheres em idade reprodutiva, com prevalência de 6–16% dependendo da população. Até 10% das pacientes são diagnosticadas na primeira consulta ginecológica."
+  },
+  {
+    question: "Pelos critérios de Rotterdam (revisados em 2023), o diagnóstico de SOP requer quantos e quais critérios?",
+    options: [
+      "2 de 3: oligo-anovulação, hiperandrogenismo e ovários policísticos/AMH elevado",
+      "Os 3 critérios obrigatoriamente: oligo-anovulação + hiperandrogenismo + ovários policísticos",
+      "Apenas o critério ultrassonográfico isolado é suficiente",
+      "1 de 2 critérios: hiperandrogenismo OU ovários policísticos",
+      "Exclusivamente LH/FSH > 2 associado à amenorreia"
+    ],
+    correctIndex: 0,
+    explanation: "São necessários 2 dos 3 critérios de Rotterdam: oligo-anovulação + hiperandrogenismo (clínico/laboratorial) + ovários policísticos ao USG ou AMH elevado. Desde 2023, o AMH pode substituir o critério ultrassonográfico."
+  },
+  {
+    question: "Qual é o fenótipo clássico (completo) da SOP?",
+    options: [
+      "Oligo-anovulação + hiperandrogenismo clínico/laboratorial + ovários policísticos",
+      "Hiperandrogenismo + ovários policísticos, com ciclos ovulatórios",
+      "Oligo-anovulação + ovários policísticos, sem hiperandrogenismo",
+      "Hiperandrogenismo isolado, sem alterações ovarianas",
+      "Amenorreia secundária sem alterações hormonais ou morfológicas"
+    ],
+    correctIndex: 0,
+    explanation: "O fenótipo A (clássico/completo) reúne os três critérios: oligo-anovulação + hiperandrogenismo clínico/laboratorial + ovários policísticos. O fenótipo C é a SOP ovulatória; o D é a não hiperandrogênica."
+  },
+  {
+    question: "Qual é o evento patognomônico da SOP no perfil hormonal?",
+    options: [
+      "Hipersecreção de LH com aumento na amplitude dos pulsos e FSH normal/baixo",
+      "Hipersecreção de FSH com supressão do LH",
+      "Elevação isolada da prolactina sem alteração de LH ou FSH",
+      "Supressão de LH e FSH por hiperandrogenismo severo",
+      "Inversão completa da relação LH/FSH com valores abaixo de 0,5"
+    ],
+    correctIndex: 0,
+    explanation: "A hipersecreção de LH é o evento patognomônico da SOP. A resistência dos neurônios de GnRH à inibição pela progesterona prolonga os pulsos de LH. O FSH fica normal ou baixo, resultando em relação LH/FSH > 2."
+  },
+  {
+    question: "Qual relação LH/FSH é tipicamente encontrada em pacientes com SOP?",
+    options: [
+      "Relação LH/FSH > 2",
+      "Relação LH/FSH < 0,5",
+      "LH e FSH ambos elevados proporcionalmente",
+      "LH e FSH ambos suprimidos",
+      "Relação LH/FSH = 1 (valores normais)"
+    ],
+    correctIndex: 0,
+    explanation: "Na SOP, o LH está elevado e o FSH normal/baixo, resultando em relação LH/FSH > 2 em geral. Isso reflete a hipersecreção de LH por perda do feedback inibitório da progesterona sobre o hipotálamo."
+  },
+  {
+    question: "Sobre a resistência insulínica na SOP, qual das seguintes afirmações está CORRETA?",
+    options: [
+      "A hiperinsulinemia aumenta a produção androgênica tecal e reduz a SHBG, amplificando o hiperandrogenismo",
+      "A resistência insulínica está presente em apenas 5% das pacientes com SOP",
+      "A insulina eleva a SHBG, reduzindo a testosterona livre",
+      "A resistência insulínica só ocorre em pacientes obesas com SOP",
+      "O tratamento com insulina exógena melhora o perfil androgênico"
+    ],
+    correctIndex: 0,
+    explanation: "Em 50% das pacientes com SOP (maioria obesas), a hiperinsulinemia resultante da RI aumenta a produção androgênica pelas células tecais ovarianas e reduz a síntese hepática de SHBG, aumentando a fração livre de testosterona."
+  },
+  {
+    question: "A acantose nigricante em paciente com SOP é marcadora clínica de:",
+    options: [
+      "Resistência insulínica e hiperinsulinemia",
+      "Hirsutismo grau severo pelo índice de Ferriman-Gallwey",
+      "Transformação maligna do endométrio",
+      "Insuficiência ovariana prematura associada",
+      "Hiperprolactinemia concomitante"
+    ],
+    correctIndex: 0,
+    explanation: "A acantose nigricante é uma manifestação cutânea de hiperinsulinemia — lesão hiperpigmentada e aveludada em áreas de dobras. Na SOP, serve como marcador clínico de resistência insulínica."
+  },
+  {
+    question: "O índice de Ferriman-Gallwey é utilizado para:",
+    options: [
+      "Quantificar o hirsutismo em 9 áreas androgênio-dependentes (0–4 pontos cada)",
+      "Calcular o volume ovariano ao ultrassom transvaginal",
+      "Avaliar a resistência insulínica em pacientes com SOP",
+      "Estadiar a gravidade da anovulação crônica",
+      "Estimar o risco de câncer endometrial na SOP"
+    ],
+    correctIndex: 0,
+    explanation: "O índice de Ferriman-Gallwey avalia o crescimento de pelos terminais em 9 áreas androgênio-dependentes do corpo, com pontuação de 0 a 4 por área. Score ≥ 4–6 é considerado hirsutismo."
+  },
+  {
+    question: "Os critérios ultrassonográficos (ESHRE/ASRM 2019) para ovários policísticos incluem:",
+    options: [
+      "20 ou mais folículos de até 10 mm OU volume ovariano > 12 cc, avaliados entre o 2º e 4º dia do ciclo sem ACO",
+      "10 ou mais folículos de qualquer tamanho em qualquer fase do ciclo",
+      "Volume ovariano > 5 cc independente do número de folículos",
+      "Folículos > 20 mm bilateralmente com estroma hiperecogênico",
+      "Presença de cisto ovariano único > 3 cm com fluxo Doppler presente"
+    ],
+    correctIndex: 0,
+    explanation: "O critério ultrassonográfico atual requer: ≥ 20 folículos de ≤ 10 mm OU volume ovariano > 12 cc em um ou ambos os ovários, avaliados entre o 2º e 4º dia do ciclo, sem uso de contraceptivos orais."
+  },
+  {
+    question: "Qual atualização diagnóstica importante foi incorporada ao Consenso Internacional da SOP em 2023?",
+    options: [
+      "O AMH > 5,39 ng/mL pode substituir o critério ultrassonográfico de ovários policísticos",
+      "A relação LH/FSH > 3 passou a ser critério obrigatório para o diagnóstico",
+      "O diagnóstico passou a exigir os 3 critérios de Rotterdam simultaneamente",
+      "A resistência insulínica foi adicionada como 4º critério diagnóstico",
+      "A histeroscopia tornou-se obrigatória para confirmar a anovulação"
+    ],
+    correctIndex: 0,
+    explanation: "Em 2023, o Consenso Internacional passou a permitir que o AMH > 5,39 ng/mL substitua o critério ultrassonográfico. Na SOP, os níveis de AMH podem ser até 4× maiores que em mulheres saudáveis (sensibilidade 88,6%, especificidade 92,75%)."
+  },
+  {
+    question: "Qual das seguintes condições deve ser EXCLUÍDA antes de confirmar o diagnóstico de SOP?",
+    options: [
+      "Hiperprolactinemia, hipotireoidismo e hiperplasia adrenal congênita",
+      "Endometriose e leiomiomatose uterina",
+      "Insuficiência ovariana prematura e menopausa precoce",
+      "Diabetes mellitus tipo 1 e doença celíaca",
+      "Adenomiose e síndrome de Asherman"
+    ],
+    correctIndex: 0,
+    explanation: "Antes de confirmar SOP, é obrigatório excluir outras causas de hiperandrogenismo e anovulação: hiperprolactinemia (dosar prolactina), hipotireoidismo (TSH), hiperplasia adrenal congênita (17-OH-progesterona) e síndrome de Cushing."
+  },
+  {
+    question: "Qual é a consequência a LONGO PRAZO mais grave relacionada à anovulação crônica na SOP?",
+    options: [
+      "Câncer endometrial por exposição estrogênica sem oposição de progesterona",
+      "Carcinoma de ovário por cistos policísticos",
+      "Insuficiência ovariana prematura por depleção folicular acelerada",
+      "Carcinoma de colo uterino por hiperandrogenismo crônico",
+      "Leiomiomatose uterina por hiperprogesteronemia"
+    ],
+    correctIndex: 0,
+    explanation: "Nos ciclos anovulatórios da SOP, o endométrio fica exposto ao estrogênio sem oposição de progesterona, levando à hiperplasia endometrial e, a longo prazo, risco de câncer endometrial. Outras consequências tardias incluem DM tipo 2 e doença cardiovascular."
+  },
+  {
+    question: "Qual é o tratamento de primeira linha para controle da resistência insulínica na SOP?",
+    options: [
+      "Metformina (Glifage XR)",
+      "Espironolactona",
+      "Citrato de clomifeno",
+      "Análogos de GnRH",
+      "Tibolona"
+    ],
+    correctIndex: 0,
+    explanation: "A metformina (Glifage XR) é o sensibilizador de insulina de primeira escolha na SOP. Reduz a hiperinsulinemia, o hiperandrogenismo e pode restaurar a ovulação, especialmente em pacientes com síndrome plurimetabólica."
+  },
+  {
+    question: "Para indução de ovulação em paciente com SOP sem desejo reprodutivo imediato, qual é a abordagem de PRIMEIRA LINHA?",
+    options: [
+      "Modificação do estilo de vida + perda de 10% do peso corporal",
+      "Fertilização in vitro imediata",
+      "Espironolactona + anticoncepcional oral",
+      "FSHr exógeno em altas doses",
+      "Drilling ovariano laparoscópico"
+    ],
+    correctIndex: 0,
+    explanation: "A perda de 10% do peso já reverte o quadro anovulatório, reduz andrógenos e insulina séricos e aumenta a SHBG. É a intervenção de base para qualquer paciente com SOP — antes de qualquer medicação."
+  },
+  {
+    question: "Qual é o medicamento de PRIMEIRA LINHA para indução de ovulação em paciente com SOP e desejo reprodutivo?",
+    options: [
+      "Citrato de clomifeno",
+      "Metformina isolada",
+      "FSHr exógeno",
+      "Espironolactona",
+      "Progesterona micronizada"
+    ],
+    correctIndex: 0,
+    explanation: "O citrato de clomifeno (CC) é a primeira linha para indução de ovulação na SOP. É um antiestrogênio que bloqueia o receptor hipotalâmico, aumentando a secreção endógena de FSH e induzindo o crescimento folicular."
+  },
+  {
+    question: "O letrozol é utilizado na SOP como alternativa ao citrato de clomifeno. Em qual categoria farmacológica se enquadra?",
+    options: [
+      "Inibidor da aromatase (uso off-label)",
+      "Análogo do GnRH",
+      "Antiandrogênio receptor-bloqueador",
+      "Progestogênio sintético",
+      "Modulador seletivo do receptor de estrogênio (SERM)"
+    ],
+    correctIndex: 0,
+    explanation: "O letrozol é um inibidor da aromatase, usado off-label na SOP para indução de ovulação. Reduz a produção de estrogênio, estimulando o FSH endógeno. Estudos mostram resultados comparáveis ao CC, com menor risco de gestação múltipla."
+  },
+  {
+    question: "Quais são as indicações do drilling ovariano laparoscópico na SOP?",
+    options: [
+      "Pacientes refratárias ao FSHr e ao citrato de clomifeno, especialmente magras com LH elevado",
+      "Primeira linha em todas as pacientes jovens com SOP e desejo reprodutivo",
+      "Pacientes com volume ovariano < 6 cc ao ultrassom",
+      "Indicado rotineiramente antes de qualquer tratamento medicamentoso",
+      "Pacientes com SOP e endometriose associada"
+    ],
+    correctIndex: 0,
+    explanation: "O drilling ovariano é reservado para pacientes refratárias ao FSHr e ao CC, particularmente as magras com altas concentrações de LH. É uma opção de última linha em nuligestas, pois pode reduzir a reserva ovariana."
+  },
+  {
+    question: "Qual complicação grave está associada ao uso de FSH recombinante exógeno para indução de ovulação na SOP?",
+    options: [
+      "Síndrome de hiperestimulação ovariana (SHO) e gestação múltipla",
+      "Insuficiência ovariana prematura irreversível",
+      "Trombose venosa profunda por hiperandrogenismo iatrogênico",
+      "Câncer de ovário por estimulação crônica",
+      "Ruptura uterina no trabalho de parto"
+    ],
+    correctIndex: 0,
+    explanation: "O FSHr exógeno está associado a complicações importantes: síndrome de hiperestimulação ovariana (SHO) — acúmulo de líquido, trombose, insuficiência respiratória nos casos graves — e gestação múltipla, por recrutamento de múltiplos folículos."
+  },
+  {
+    question: "Em paciente com SOP sem desejo reprodutivo e com hirsutismo importante, qual medicamento é mais indicado para controle do hiperandrogenismo?",
+    options: [
+      "Espironolactona",
+      "Citrato de clomifeno",
+      "Metformina",
+      "FSHr exógeno",
+      "Letrozol"
+    ],
+    correctIndex: 0,
+    explanation: "A espironolactona é um antiandrogênio que bloqueia os receptores de andrógeno, sendo indicada para o tratamento do hirsutismo e hiperandrogenismo clínico na SOP sem desejo reprodutivo. Frequentemente combinada com anticoncepcional oral."
+  },
+  {
+    question: "O 'sinal do colar' ao ultrassom transvaginal na SOP refere-se a:",
+    options: [
+      "Distribuição dos cistos na periferia ovariana com estroma central hiperecogênico",
+      "Calcificações lineares ao redor dos ovários sugerindo torção",
+      "Líquido livre perifolicular indicando ovulação iminente",
+      "Fluxo em anel de fogo ao Doppler colorido dos folículos dominantes",
+      "Espessamento da teca ovariana superior a 3 mm"
+    ],
+    correctIndex: 0,
+    explanation: "O sinal do colar refere-se à distribuição periférica dos microcistos com estroma central hiperecogênico — imagem característica do ovário policístico ao USG TV. Está presente em cerca de 20% dos casos de SOP."
+  }
+];
+
+function shuffleQuestion(q) {
+  const correctText = q.options[q.correctIndex];
+  const shuffled = [...q.options];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return { ...q, options: shuffled, correctIndex: shuffled.indexOf(correctText) };
+}
+
+let questions = [];
+let current = 0;
+let correct = 0;
+let wrong = 0;
+
+function startQuiz() {
+  questions = rawQuestions.map(shuffleQuestion).sort(() => Math.random() - 0.5);
+  current = 0; correct = 0; wrong = 0;
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[current];
+  const total = questions.length;
+  document.getElementById('progress-label').textContent = `Questão ${current + 1} de ${total}`;
+  document.getElementById('progress-bar').style.width = `${((current) / total) * 100}%`;
+  document.getElementById('question-text').textContent = q.question;
+  document.getElementById('explanation').style.display = 'none';
+  document.getElementById('btn-next').style.display = 'none';
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(i);
+    optDiv.appendChild(btn);
+  });
+}
+
+function selectAnswer(selected) {
+  const q = questions[current];
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+  if (selected === q.correctIndex) {
+    btns[selected].classList.add('correct');
+    correct++;
+  } else {
+    btns[selected].classList.add('wrong');
+    btns[q.correctIndex].classList.add('correct');
+    wrong++;
+  }
+  const exp = document.getElementById('explanation');
+  exp.textContent = q.explanation;
+  exp.style.display = 'block';
+  document.getElementById('btn-next').style.display = 'inline-block';
+  document.getElementById('btn-next').textContent = current + 1 < questions.length ? 'Proxima →' : 'Ver resultado';
+}
+
+function nextQuestion() {
+  current++;
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  const res = document.getElementById('result-screen');
+  res.style.display = 'block';
+  const pct = Math.round((correct / questions.length) * 100);
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-total').textContent = questions.length;
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'block';
+}
+</script>
+</body>
+</html>
