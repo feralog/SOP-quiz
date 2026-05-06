@@ -113,7 +113,7 @@ const rawQuestions = [
       "6% a 16% dependendo da população estudada",
       "Menos de 1% da população feminina",
       "Apenas mulheres obesas, cerca de 30%",
-      "Exclusivamente em mulheres com história familiar positiva",
+      "Em mulheres com história familiar positiva",
       "Entre 20 e 25% das mulheres pós-menopáusicas"
     ],
     correctIndex: 0,
@@ -122,10 +122,10 @@ const rawQuestions = [
   {
     question: "Pelos critérios de Rotterdam (revisados em 2023), o diagnóstico de SOP requer quantos e quais critérios?",
     options: [
-      "2 de 3: oligo-anovulação, hiperandrogenismo e ovários policísticos/AMH elevado",
-      "Os 3 critérios obrigatoriamente: oligo-anovulação + hiperandrogenismo + ovários policísticos",
+      "2 dos 3: oligo-anovulação, hiperandrogenismo ou ovários/AMH",
+      "Todos os 3 critérios: anovulação, HA e ovários policísticos",
       "Apenas o critério ultrassonográfico isolado é suficiente",
-      "1 de 2 critérios: hiperandrogenismo OU ovários policísticos",
+      "1 de 2: hiperandrogenismo ou ovários policísticos",
       "Exclusivamente LH/FSH > 2 associado à amenorreia"
     ],
     correctIndex: 0,
@@ -134,7 +134,7 @@ const rawQuestions = [
   {
     question: "Qual é o fenótipo clássico (completo) da SOP?",
     options: [
-      "Oligo-anovulação + hiperandrogenismo clínico/laboratorial + ovários policísticos",
+      "Oligo-anovulação + hiperandrogenismo + ovários policísticos",
       "Hiperandrogenismo + ovários policísticos, com ciclos ovulatórios",
       "Oligo-anovulação + ovários policísticos, sem hiperandrogenismo",
       "Hiperandrogenismo isolado, sem alterações ovarianas",
@@ -146,8 +146,8 @@ const rawQuestions = [
   {
     question: "Qual é o evento patognomônico da SOP no perfil hormonal?",
     options: [
-      "Hipersecreção de LH com aumento na amplitude dos pulsos e FSH normal/baixo",
-      "Hipersecreção de FSH com supressão do LH",
+      "Hipersecreção de LH com pulsos ampliados e FSH normal/baixo",
+      "Hipersecreção de FSH com supressão do LH sérico",
       "Elevação isolada da prolactina sem alteração de LH ou FSH",
       "Supressão de LH e FSH por hiperandrogenismo severo",
       "Inversão completa da relação LH/FSH com valores abaixo de 0,5"
@@ -158,11 +158,11 @@ const rawQuestions = [
   {
     question: "Qual relação LH/FSH é tipicamente encontrada em pacientes com SOP?",
     options: [
-      "Relação LH/FSH > 2",
-      "Relação LH/FSH < 0,5",
-      "LH e FSH ambos elevados proporcionalmente",
+      "LH/FSH > 2 (LH elevado)",
+      "LH/FSH < 0,5 (LH baixo)",
+      "LH e FSH ambos elevados",
       "LH e FSH ambos suprimidos",
-      "Relação LH/FSH = 1 (valores normais)"
+      "LH/FSH = 1 (normal)"
     ],
     correctIndex: 0,
     explanation: "Na SOP, o LH está elevado e o FSH normal/baixo, resultando em relação LH/FSH > 2 em geral. Isso reflete a hipersecreção de LH por perda do feedback inibitório da progesterona sobre o hipotálamo."
@@ -170,10 +170,10 @@ const rawQuestions = [
   {
     question: "Sobre a resistência insulínica na SOP, qual das seguintes afirmações está CORRETA?",
     options: [
-      "A hiperinsulinemia aumenta a produção androgênica tecal e reduz a SHBG, amplificando o hiperandrogenismo",
-      "A resistência insulínica está presente em apenas 5% das pacientes com SOP",
+      "Hiperinsulinemia aumenta andrógenos tecais e reduz SHBG",
+      "A resistência insulínica está em apenas 5% das pacientes",
       "A insulina eleva a SHBG, reduzindo a testosterona livre",
-      "A resistência insulínica só ocorre em pacientes obesas com SOP",
+      "A resistência insulínica só ocorre em pacientes obesas",
       "O tratamento com insulina exógena melhora o perfil androgênico"
     ],
     correctIndex: 0,
@@ -183,10 +183,10 @@ const rawQuestions = [
     question: "A acantose nigricante em paciente com SOP é marcadora clínica de:",
     options: [
       "Resistência insulínica e hiperinsulinemia",
-      "Hirsutismo grau severo pelo índice de Ferriman-Gallwey",
+      "Hirsutismo severo por Ferriman-Gallwey",
       "Transformação maligna do endométrio",
       "Insuficiência ovariana prematura associada",
-      "Hiperprolactinemia concomitante"
+      "Hiperprolactinemia como condição associada"
     ],
     correctIndex: 0,
     explanation: "A acantose nigricante é uma manifestação cutânea de hiperinsulinemia — lesão hiperpigmentada e aveludada em áreas de dobras. Na SOP, serve como marcador clínico de resistência insulínica."
@@ -194,7 +194,7 @@ const rawQuestions = [
   {
     question: "O índice de Ferriman-Gallwey é utilizado para:",
     options: [
-      "Quantificar o hirsutismo em 9 áreas androgênio-dependentes (0–4 pontos cada)",
+      "Graduar o hirsutismo em 9 áreas androgênio-dependentes",
       "Calcular o volume ovariano ao ultrassom transvaginal",
       "Avaliar a resistência insulínica em pacientes com SOP",
       "Estadiar a gravidade da anovulação crônica",
@@ -206,11 +206,11 @@ const rawQuestions = [
   {
     question: "Os critérios ultrassonográficos (ESHRE/ASRM 2019) para ovários policísticos incluem:",
     options: [
-      "20 ou mais folículos de até 10 mm OU volume ovariano > 12 cc, avaliados entre o 2º e 4º dia do ciclo sem ACO",
-      "10 ou mais folículos de qualquer tamanho em qualquer fase do ciclo",
+      "≥ 20 folículos ≤ 10 mm OU volume > 12 cc (2º–4º dia, sem ACO)",
+      "10 ou mais folículos de qualquer tamanho em qualquer fase",
       "Volume ovariano > 5 cc independente do número de folículos",
       "Folículos > 20 mm bilateralmente com estroma hiperecogênico",
-      "Presença de cisto ovariano único > 3 cm com fluxo Doppler presente"
+      "Presença de cisto ovariano único > 3 cm com fluxo Doppler"
     ],
     correctIndex: 0,
     explanation: "O critério ultrassonográfico atual requer: ≥ 20 folículos de ≤ 10 mm OU volume ovariano > 12 cc em um ou ambos os ovários, avaliados entre o 2º e 4º dia do ciclo, sem uso de contraceptivos orais."
@@ -218,9 +218,9 @@ const rawQuestions = [
   {
     question: "Qual atualização diagnóstica importante foi incorporada ao Consenso Internacional da SOP em 2023?",
     options: [
-      "O AMH > 5,39 ng/mL pode substituir o critério ultrassonográfico de ovários policísticos",
-      "A relação LH/FSH > 3 passou a ser critério obrigatório para o diagnóstico",
-      "O diagnóstico passou a exigir os 3 critérios de Rotterdam simultaneamente",
+      "O AMH > 5,39 ng/mL pode substituir o critério ultrassonográfico (2023)",
+      "LH/FSH > 3 passou a ser critério obrigatório para o diagnóstico",
+      "O diagnóstico passou a exigir os 3 critérios de Rotterdam juntos",
       "A resistência insulínica foi adicionada como 4º critério diagnóstico",
       "A histeroscopia tornou-se obrigatória para confirmar a anovulação"
     ],
@@ -230,11 +230,11 @@ const rawQuestions = [
   {
     question: "Qual das seguintes condições deve ser EXCLUÍDA antes de confirmar o diagnóstico de SOP?",
     options: [
-      "Hiperprolactinemia, hipotireoidismo e hiperplasia adrenal congênita",
+      "Hiperprolactinemia, hipotireoidismo e HAC",
       "Endometriose e leiomiomatose uterina",
-      "Insuficiência ovariana prematura e menopausa precoce",
+      "Insuficiência ovariana prematura (POI)",
       "Diabetes mellitus tipo 1 e doença celíaca",
-      "Adenomiose e síndrome de Asherman"
+      "Adenomiose e aderências intrauterinas"
     ],
     correctIndex: 0,
     explanation: "Antes de confirmar SOP, é obrigatório excluir outras causas de hiperandrogenismo e anovulação: hiperprolactinemia (dosar prolactina), hipotireoidismo (TSH), hiperplasia adrenal congênita (17-OH-progesterona) e síndrome de Cushing."
@@ -242,9 +242,9 @@ const rawQuestions = [
   {
     question: "Qual é a consequência a LONGO PRAZO mais grave relacionada à anovulação crônica na SOP?",
     options: [
-      "Câncer endometrial por exposição estrogênica sem oposição de progesterona",
-      "Carcinoma de ovário por cistos policísticos",
-      "Insuficiência ovariana prematura por depleção folicular acelerada",
+      "Câncer endometrial por anovulação e hiperestrogenismo",
+      "Carcinoma de ovário pela estimulação dos cistos",
+      "Insuficiência ovariana prematura por depleção folicular",
       "Carcinoma de colo uterino por hiperandrogenismo crônico",
       "Leiomiomatose uterina por hiperprogesteronemia"
     ],
@@ -254,11 +254,11 @@ const rawQuestions = [
   {
     question: "Qual é o tratamento de primeira linha para controle da resistência insulínica na SOP?",
     options: [
-      "Metformina (Glifage XR)",
-      "Espironolactona",
-      "Citrato de clomifeno",
-      "Análogos de GnRH",
-      "Tibolona"
+      "Metformina — biguanida sensibilizadora",
+      "Espironolactona — antiandrogênio renal",
+      "Clomifeno — modulador receptor estrogênio",
+      "Análogo de GnRH — supressor ovariano",
+      "Tibolona — esteroide anabolizante sintético"
     ],
     correctIndex: 0,
     explanation: "A metformina (Glifage XR) é o sensibilizador de insulina de primeira escolha na SOP. Reduz a hiperinsulinemia, o hiperandrogenismo e pode restaurar a ovulação, especialmente em pacientes com síndrome plurimetabólica."
@@ -266,11 +266,11 @@ const rawQuestions = [
   {
     question: "Para indução de ovulação em paciente com SOP sem desejo reprodutivo imediato, qual é a abordagem de PRIMEIRA LINHA?",
     options: [
-      "Modificação do estilo de vida + perda de 10% do peso corporal",
-      "Fertilização in vitro imediata",
+      "Perda ponderal de 10% e mudança do estilo de vida",
+      "Fertilização in vitro imediata sem preparo",
       "Espironolactona + anticoncepcional oral",
-      "FSHr exógeno em altas doses",
-      "Drilling ovariano laparoscópico"
+      "FSHr exógeno em doses altas (≥ 75 UI/dia)",
+      "Drilling ovariano laparoscópico de urgência"
     ],
     correctIndex: 0,
     explanation: "A perda de 10% do peso já reverte o quadro anovulatório, reduz andrógenos e insulina séricos e aumenta a SHBG. É a intervenção de base para qualquer paciente com SOP — antes de qualquer medicação."
@@ -278,11 +278,11 @@ const rawQuestions = [
   {
     question: "Qual é o medicamento de PRIMEIRA LINHA para indução de ovulação em paciente com SOP e desejo reprodutivo?",
     options: [
-      "Citrato de clomifeno",
-      "Metformina isolada",
-      "FSHr exógeno",
-      "Espironolactona",
-      "Progesterona micronizada"
+      "Clomifeno — indutor de ovulação",
+      "Metformina — sensibilizador insulínico",
+      "FSHr exógeno — gonadotrofina",
+      "Espironolactona — antiandrogênio",
+      "Progesterona — suporte lúteo"
     ],
     correctIndex: 0,
     explanation: "O citrato de clomifeno (CC) é a primeira linha para indução de ovulação na SOP. É um antiestrogênio que bloqueia o receptor hipotalâmico, aumentando a secreção endógena de FSH e induzindo o crescimento folicular."
@@ -291,10 +291,10 @@ const rawQuestions = [
     question: "O letrozol é utilizado na SOP como alternativa ao citrato de clomifeno. Em qual categoria farmacológica se enquadra?",
     options: [
       "Inibidor da aromatase (uso off-label)",
-      "Análogo do GnRH",
+      "Análogo do GnRH (agonista hipotalâmico)",
       "Antiandrogênio receptor-bloqueador",
-      "Progestogênio sintético",
-      "Modulador seletivo do receptor de estrogênio (SERM)"
+      "Progestogênio sintético de depósito",
+      "SERM (modulador receptor estrogênio)"
     ],
     correctIndex: 0,
     explanation: "O letrozol é um inibidor da aromatase, usado off-label na SOP para indução de ovulação. Reduz a produção de estrogênio, estimulando o FSH endógeno. Estudos mostram resultados comparáveis ao CC, com menor risco de gestação múltipla."
@@ -302,10 +302,10 @@ const rawQuestions = [
   {
     question: "Quais são as indicações do drilling ovariano laparoscópico na SOP?",
     options: [
-      "Pacientes refratárias ao FSHr e ao citrato de clomifeno, especialmente magras com LH elevado",
-      "Primeira linha em todas as pacientes jovens com SOP e desejo reprodutivo",
+      "Refratárias ao FSHr e clomifeno, magras com LH elevado",
+      "Primeira linha para jovens com SOP e desejo reprodutivo",
       "Pacientes com volume ovariano < 6 cc ao ultrassom",
-      "Indicado rotineiramente antes de qualquer tratamento medicamentoso",
+      "Indicado antes de qualquer medicação na SOP",
       "Pacientes com SOP e endometriose associada"
     ],
     correctIndex: 0,
@@ -314,11 +314,11 @@ const rawQuestions = [
   {
     question: "Qual complicação grave está associada ao uso de FSH recombinante exógeno para indução de ovulação na SOP?",
     options: [
-      "Síndrome de hiperestimulação ovariana (SHO) e gestação múltipla",
-      "Insuficiência ovariana prematura irreversível",
+      "SHO e gestação múltipla por recrutamento excessivo",
+      "Insuficiência ovariana prematura e irreversível",
       "Trombose venosa profunda por hiperandrogenismo iatrogênico",
-      "Câncer de ovário por estimulação crônica",
-      "Ruptura uterina no trabalho de parto"
+      "Câncer de ovário por estimulação ovariana crônica",
+      "Ruptura uterina no trabalho de parto induzido"
     ],
     correctIndex: 0,
     explanation: "O FSHr exógeno está associado a complicações importantes: síndrome de hiperestimulação ovariana (SHO) — acúmulo de líquido, trombose, insuficiência respiratória nos casos graves — e gestação múltipla, por recrutamento de múltiplos folículos."
@@ -326,11 +326,11 @@ const rawQuestions = [
   {
     question: "Em paciente com SOP sem desejo reprodutivo e com hirsutismo importante, qual medicamento é mais indicado para controle do hiperandrogenismo?",
     options: [
-      "Espironolactona",
-      "Citrato de clomifeno",
-      "Metformina",
-      "FSHr exógeno",
-      "Letrozol"
+      "Espironolactona — antiandrogênio",
+      "Clomifeno — indutor de ovulação",
+      "Metformina — biguanida oral",
+      "FSHr — gonadotrofina recombinante",
+      "Letrozol — inibidor de aromatase"
     ],
     correctIndex: 0,
     explanation: "A espironolactona é um antiandrogênio que bloqueia os receptores de andrógeno, sendo indicada para o tratamento do hirsutismo e hiperandrogenismo clínico na SOP sem desejo reprodutivo. Frequentemente combinada com anticoncepcional oral."
@@ -338,10 +338,10 @@ const rawQuestions = [
   {
     question: "O 'sinal do colar' ao ultrassom transvaginal na SOP refere-se a:",
     options: [
-      "Distribuição dos cistos na periferia ovariana com estroma central hiperecogênico",
+      "Cistos periféricos com estroma central hiperecogênico",
       "Calcificações lineares ao redor dos ovários sugerindo torção",
       "Líquido livre perifolicular indicando ovulação iminente",
-      "Fluxo em anel de fogo ao Doppler colorido dos folículos dominantes",
+      "Fluxo em anel de fogo ao Doppler dos folículos dominantes",
       "Espessamento da teca ovariana superior a 3 mm"
     ],
     correctIndex: 0,
